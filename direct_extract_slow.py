@@ -28,11 +28,10 @@ def get_txs(start, end, address, data_dir="./data"):
                 if method not in KNOWN_METHODS.keys():
                     continue
                 method_name = KNOWN_METHODS[method][0]
-                decoded_input = abi.decode(KNOWN_METHODS[method][1], web3.toBytes(hexstr=input_data[10:]))
 
                 if method_name == 'participate':
                     participate_data['user'].append(tx['from'])
-                    participate_data['amount'].append(decoded_input[1])
+                    participate_data['amount'].append(abi.decode(KNOWN_METHODS[method][1], web3.toBytes(hexstr=input_data[10:]))[1])
                     participate_data['block'].append(tx['blockNumber'])
                     participate_data['tx_hash'].append(hash_str)
                 elif method_name == 'claim':
